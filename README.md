@@ -9,11 +9,6 @@
 \---
 
 
-## 🚀 Live Demo
-
-🌐 https://cosmic-chatbot-de9rqjaxebritytjxi7wcn.streamlit.app/
-
-
 \## 🚀 Overview
 
 
