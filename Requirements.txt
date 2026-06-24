@@ -1,0 +1,7 @@
+streamlit
+google-genai
+psutil
+PyPDF2
+gtts
+playsound3
+geocoder

@@ -1,0 +1,34 @@
+============================================================
+DEVELOPMENT LOG: COSMIC AGENT ARCHITECTURE
+============================================================
+
+LIBRARIES EMPLOYED:
+- streamlit: The primary UI framework for building the reactive web dashboard.
+- google-genai: The official SDK for interfacing with Gemini 3.1 flash-lite models.
+- psutil: Utilized for cross-platform system monitoring (CPU/Battery).
+- PyPDF2: Facilitates low-level binary PDF data extraction and text conversion.
+- gTTS/playsound3: Enables local audio generation and hardware-level sound playback.
+- geocoder: Used to determine user location context for personalized greetings.
+
+------------------------------------------------------------
+CHALLENGES, PROBLEMS, & TECHNICAL SOLUTIONS:
+
+CHALLENGE 1: Tool-Model Synchronization
+- Problem: The LLM frequently failed to correctly map its internal function call requests to the actual Python tool execution loop.
+- Solution: Transitioned to a manual execution loop. Upon detecting `response.function_calls`, the script iterates through the calls, executes them locally via a pre-defined `tools_map`, and sends the output back as a `types.Part.from_function_response`. This closes the feedback loop and prevents the model from hallucinating tool outputs.
+
+CHALLENGE 2: Streamlit Session State & Memory
+- Problem: Streamlit is inherently stateless; every interaction triggers a full script re-run, which repeatedly destroyed the API client connection, causing "Client Closed" errors.
+- Solution: Implemented `if "chat" not in st.session_state` persistence. By storing the `client` and `chat` session object in the Streamlit `session_state`, we ensure the handshake with the Gemini servers happens exactly once per user session.
+
+CHALLENGE 3: Sensor Data Resiliency
+- Problem: The battery sensor on desktop-class workstations often returns 'None' or throws exceptions if no battery is detected, which previously caused the chatbot to report that it lacked system access.
+- Solution: Introduced defensive programming in the `get_system_status` tool. The logic now checks the return type of `psutil.sensors_battery()`. If the result is null, it gracefully returns a "Not Detected" string rather than allowing a null pointer error to reach the AI model.
+
+CHALLENGE 4: UI/UX & Layering
+- Problem: Integrating a background animation (the solar system) that was both visually appealing and allowed the user to click the chat input box.
+- Solution: Applied CSS `pointer-events: none` to the background animation container. This makes the animation "invisible" to the mouse cursor, allowing users to type and click through the background onto the chat input field seamlessly.
+
+CHALLENGE 5: File-Path Handling
+- Problem: Windows users frequently copy-paste paths with quotation marks (e.g., "C:\Docs\File.pdf"), which breaks file opening logic.
+- Solution: Added input cleaning to the PDF tool using `.strip('"').strip("'")`, ensuring the path passed to `PyPDF2` is strictly the clean file path.
