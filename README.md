@@ -632,8 +632,11 @@ pip install -r requirements.txt
 ```powershell
 
 setx GEMINI\_API\_KEY "YOUR\_API\_KEY"
+or for windows Powershell
+$env:GEMINI_API_KEY="YOUR_API_KEY"
 
 ```
+
 
 
 
