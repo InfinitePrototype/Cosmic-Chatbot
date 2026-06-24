@@ -11,7 +11,7 @@
 
 ## 🚀 Live Demo
 
-🌐 https://your-streamlit-app.streamlit.app
+🌐 https://cosmic-chatbot-de9rqjaxebritytjxi7wcn.streamlit.app/
 
 
 \## 🚀 Overview
