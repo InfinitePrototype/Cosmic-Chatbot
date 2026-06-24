@@ -667,6 +667,8 @@ export GEMINI\_API\_KEY="YOUR\_API\_KEY"
 ```bash
 
 streamlit run app.py
+or
+python -m streamlit run app.py 
 
 ```
 
